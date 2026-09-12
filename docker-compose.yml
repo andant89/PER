@@ -1,0 +1,17 @@
+services:
+  mon-per:
+    build: .
+    image: mon-per:latest
+    container_name: mon-per
+    restart: unless-stopped
+    ports:
+      # Modifiez le port hôte si 8080 est déjà pris sur votre machine.
+      - "8080:80"
+    # Le conteneur n'a besoin d'aucun volume ni d'aucune base de données :
+    # la progression de l'enfant est stockée dans le navigateur.
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    security_opt:
+      - no-new-privileges:true
