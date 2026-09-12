@@ -61,7 +61,7 @@ export const ANNEES = [
       },
       {
         domaine: "arts",
-        objectifs: ["A 11 AV / A 11 AC&M / A 11 MU"],
+        objectifs: ["A 11"],
         items: [
           "Dessiner un bonhomme de plus en plus complet",
           "Chanter des comptines en groupe, marquer un rythme",

@@ -96,7 +96,7 @@ export const EXERCICES = [
     titre: "Les couleurs",
     emoji: "🎨",
     domaine: "arts",
-    objectifs: ["A 12 …", "L1 13-14"],
+    objectifs: ["A 12", "L1 13-14"],
     description: "Touche la bonne couleur.",
     competence: "Nommer et distinguer les couleurs de base.",
     conseil: "Utile aussi pour repérer un éventuel trouble de la vision des couleurs.",

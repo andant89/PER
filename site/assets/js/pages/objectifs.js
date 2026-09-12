@@ -53,6 +53,9 @@ function sectionsDomaines(cycle) {
       h("span", { class: "etiquette" }, domaine.sigle),
       h("h2", { style: { marginTop: ".6rem" } }, `${domaine.emoji} ${domaine.nom}`),
       h("p", { style: { fontSize: ".95rem", color: "var(--encre-douce)" } }, domaine.viseesPrioritaires),
+      domaine.remarqueCodes
+        ? h("p", { style: { fontSize: ".88rem", color: "var(--encre-douce)", fontStyle: "italic" } }, "ℹ️ ", domaine.remarqueCodes)
+        : null,
       ...objectifs.map((objectif) => ligneObjectif(objectif)),
       objectifs.length === 0 ? h("p", {}, "Aucun objectif renseigné pour ce cycle.") : null
     );

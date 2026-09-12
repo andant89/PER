@@ -359,12 +359,15 @@ export const DOMAINES = [
     viseesPrioritaires:
       "Découvrir et développer des modes d'expression artistiques et leurs langages ; représenter " +
       "et exprimer une idée, un imaginaire, une émotion ; acquérir une culture artistique.",
+    remarqueCodes:
+      "Dans le PER, les codes du domaine Arts se déclinent par discipline : A 11 AV (arts visuels), " +
+      "A 11 AC&M (activités créatrices et manuelles), A 11 MU (musique). Le code de base est utilisé ici.",
     objectifs: {
       1: [
-        { code: "A 11 AV / A 11 AC&M / A 11 MU", titre: "Représenter et exprimer une idée, un imaginaire, une émotion", composantes: ["Dessiner, peindre, modeler, chanter, danser"], verifie: false },
-        { code: "A 12 …", titre: "Mobiliser ses perceptions sensorielles", composantes: ["Regarder, écouter, toucher, comparer"], verifie: false },
-        { code: "A 13 …", titre: "Explorer diverses techniques plastiques, artisanales et sonores", composantes: ["Découper, coller, assembler, produire des sons"], verifie: false },
-        { code: "A 14 …", titre: "Rencontrer divers domaines et cultures artistiques", composantes: ["Découvrir des œuvres, des chansons, des instruments"], verifie: false }
+        { code: "A 11", titre: "Représenter et exprimer une idée, un imaginaire, une émotion", composantes: ["Dessiner, peindre, modeler, chanter, danser"], verifie: false },
+        { code: "A 12", titre: "Mobiliser ses perceptions sensorielles", composantes: ["Regarder, écouter, toucher, comparer"], verifie: false },
+        { code: "A 13", titre: "Explorer diverses techniques plastiques, artisanales et sonores", composantes: ["Découper, coller, assembler, produire des sons"], verifie: false },
+        { code: "A 14", titre: "Rencontrer divers domaines et cultures artistiques", composantes: ["Découvrir des œuvres, des chansons, des instruments"], verifie: false }
       ],
       2: [{ code: "A 21-24", titre: "Expression, perception, technique et culture artistiques (cycle 2)", composantes: [], verifie: false }],
       3: [{ code: "A 31-34", titre: "Expression, perception, technique et culture artistiques (cycle 3)", composantes: [], verifie: false }]
