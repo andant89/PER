@@ -3,7 +3,7 @@
 FROM nginx:1.27-alpine
 
 LABEL org.opencontainers.image.title="Mon PER" \
-      org.opencontainers.image.description="Plan d'études romand expliqué + exercices ludiques 1P" \
+      org.opencontainers.image.description="Plan d'études romand expliqué + fiches à imprimer pour la 1P" \
       org.opencontainers.image.licenses="MIT"
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
