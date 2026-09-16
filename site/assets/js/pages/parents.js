@@ -1,5 +1,6 @@
 import { h, remplacer } from "../lib/dom.js";
 import { EXERCICES } from "../data/exercices.js";
+import { FICHES } from "../data/fiches.js";
 import { domaineParId, META } from "../data/per.js";
 import { profil, majProfil, progression, progressionExercice, reinitialiser, totalEtoiles } from "../lib/store.js";
 import { syntheseDisponible } from "../lib/speech.js";
@@ -18,7 +19,25 @@ function dessiner(page) {
   remplacer(
     page,
     h("h1", {}, "Espace parents"),
-    h("p", { class: "chapeau" }, "Réglages de l'application, suivi des jeux et procédure de vérification des contenus PER."),
+    h("p", { class: "chapeau" }, "Réglages de l'application, suivi des jeux sur écran et procédure de vérification des contenus PER."),
+
+    h(
+      "div",
+      { class: "note", style: { marginBottom: "2rem" } },
+      h("span", { class: "note-icone" }, "🖨️"),
+      h(
+        "div",
+        {},
+        h("strong", {}, `${FICHES.length} fiches à imprimer`),
+        h(
+          "p",
+          { style: { margin: ".25rem 0 .75rem" } },
+          "Les fiches papier ne laissent pas de trace dans l'application : la progression ci-dessous ne " +
+            "concerne que les jeux sur écran. Sur papier, c'est le cahier de votre enfant qui fait foi."
+        ),
+        h("a", { class: "bouton", href: "#/fiches" }, "Ouvrir les fiches")
+      )
+    ),
 
     /* --- Réglages ------------------------------------------------------ */
     h(
@@ -60,7 +79,7 @@ function dessiner(page) {
     h(
       "section",
       {},
-      h("h2", {}, "Progression"),
+      h("h2", {}, "Progression (jeux sur écran)"),
       h(
         "div",
         { class: "carte grille grille-3", style: { marginBottom: "1.25rem" } },

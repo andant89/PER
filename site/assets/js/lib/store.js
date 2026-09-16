@@ -4,8 +4,9 @@
 const CLE = "mon-per:v1";
 
 const DEFAUT = {
-  profil: { prenom: "", sonActif: true, annee: "1P" },
-  progression: {} // { [idExercice]: { etoiles, parties, meilleurScore, dernierePartie } }
+  profil: { prenom: "", sonActif: true, annee: "1P", niveau: 1 },
+  progression: {}, // { [idExercice]: { etoiles, parties, meilleurScore, dernierePartie } }
+  cahier: [] // identifiants des fiches retenues pour le prochain cahier à imprimer
 };
 
 let cache = null;
@@ -21,6 +22,7 @@ function lire() {
   }
   cache.profil = { ...DEFAUT.profil, ...(cache.profil || {}) };
   cache.progression = cache.progression || {};
+  cache.cahier = Array.isArray(cache.cahier) ? cache.cahier : [];
   return cache;
 }
 
@@ -68,6 +70,32 @@ export function enregistrerPartie(id, { etoiles, score, total }) {
 export function reinitialiser() {
   cache = structuredClone(DEFAUT);
   ecrire();
+}
+
+/* --- cahier de fiches ---------------------------------------------------- */
+
+export function cahier() {
+  return [...lire().cahier];
+}
+
+export function basculerDansCahier(id) {
+  lire();
+  const index = cache.cahier.indexOf(id);
+  if (index >= 0) cache.cahier.splice(index, 1);
+  else cache.cahier.push(id);
+  ecrire();
+  return cahier();
+}
+
+export function definirCahier(ids) {
+  lire();
+  cache.cahier = [...ids];
+  ecrire();
+  return cahier();
+}
+
+export function viderCahier() {
+  return definirCahier([]);
 }
 
 export function totalEtoiles() {

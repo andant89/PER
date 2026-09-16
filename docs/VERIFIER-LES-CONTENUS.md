@@ -56,15 +56,17 @@ export const META = {
 | 1 | Objectifs du **cycle 1** (`objectifs[1]`) de **Langues** et **MSN** | Ce sont ceux auxquels les exercices 1P sont rattachés. |
 | 2 | Repères de la **1P** dans `annees.js` | C'est la page la plus consultée pour un enfant de cet âge. |
 | 3 | Cycle 1 des autres domaines (SHS, Arts, CM) | Complètent la vue d'ensemble. |
-| 4 | Cycles 2 et 3 | Utiles plus tard, volontairement résumés pour l'instant. |
+| 4 | La page **canton de Vaud** (`site/assets/js/data/vaud.js`) | Évaluation, orientation et services : à confronter à vd.ch. |
+| 5 | Cycles 2 et 3 | Utiles plus tard, volontairement résumés pour l'instant. |
 
 ## Sources utiles
 
 - Plan d'études romand : <https://www.plandetudes.ch>
 - CIIP (éditeur du PER) : <https://www.ciip.ch>
-- Le portail de votre canton (Fribourg, Genève, Jura, Neuchâtel, Valais, Vaud,
-  Berne francophone) précise l'organisation locale : évaluation, horaires,
-  moyens d'enseignement, dates de cycle.
+- État de Vaud, scolarité obligatoire :
+  <https://www.vd.ch/themes/formation/scolarite-obligatoire> — c'est la source à
+  utiliser pour tout ce qui touche l'évaluation, l'orientation et les services
+  (PPLS, santé scolaire) mentionnés dans la page « Vaud » de l'application.
 
 ## Droits d'auteur
 

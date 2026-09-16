@@ -1,6 +1,7 @@
 import { h } from "../lib/dom.js";
 import { anneeParId, ANNEES } from "../data/annees.js";
 import { domaineParId, objectifParCode, cycleDeLAnnee } from "../data/per.js";
+import { FICHES } from "../data/fiches.js";
 import { EXERCICES } from "../data/exercices.js";
 
 export function rendre(params = {}) {
@@ -13,7 +14,7 @@ export function rendre(params = {}) {
   const index = ANNEES.findIndex((a) => a.id === annee.id);
   const precedente = ANNEES[index - 1];
   const suivante = ANNEES[index + 1];
-  const jeuxDisponibles = annee.id === "1P" ? EXERCICES : [];
+  const materielDisponible = annee.id === "1P";
 
   return h(
     "div",
@@ -95,13 +96,22 @@ export function rendre(params = {}) {
         )
       : null,
 
-    jeuxDisponibles.length
+    materielDisponible
       ? h(
           "section",
           {},
-          h("h2", {}, "🎮 Les exercices de cette année"),
-          h("p", {}, `${jeuxDisponibles.length} jeux sont disponibles pour la 1P.`),
-          h("a", { class: "bouton", href: "#/exercices" }, "Ouvrir les exercices")
+          h("h2", {}, "✏️ Le matériel de cette année"),
+          h(
+            "p",
+            {},
+            `${FICHES.length} fiches à imprimer et ${EXERCICES.length} jeux sur écran sont disponibles pour la 1P.`
+          ),
+          h(
+            "div",
+            { style: { display: "flex", gap: ".75rem", flexWrap: "wrap" } },
+            h("a", { class: "bouton", href: "#/fiches" }, "🖨️ Fiches à imprimer"),
+            h("a", { class: "bouton bouton-secondaire", href: "#/exercices" }, "🎮 Jeux sur écran")
+          )
         )
       : h(
           "section",
@@ -110,8 +120,8 @@ export function rendre(params = {}) {
             "div",
             { class: "note" },
             h("span", { class: "note-icone" }, "🚧"),
-            h("div", {}, h("strong", {}, "Exercices à venir"),
-              h("p", { style: { margin: ".25rem 0 0" } }, "Cette première version ne propose des jeux que pour la 1P. Les autres années suivront."))
+            h("div", {}, h("strong", {}, "Matériel à venir"),
+              h("p", { style: { margin: ".25rem 0 0" } }, "Cette version ne propose des fiches et des jeux que pour la 1P. Les autres années suivront."))
           )
         ),
 

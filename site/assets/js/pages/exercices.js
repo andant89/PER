@@ -16,12 +16,32 @@ export function rendre() {
   return h(
     "div",
     { class: "page page-large" },
-    h("h1", {}, prenom ? `Les jeux de ${prenom}` : "Exercices — 1re année (1P)"),
+    h("h1", {}, prenom ? `Les jeux de ${prenom}` : "Jeux sur écran — 1re année (1P)"),
     h(
       "p",
       { class: "chapeau" },
       "Des jeux courts, sans texte à lire : les consignes sont lues à voix haute. " +
         "Comptez 10 à 15 minutes par séance, c'est largement suffisant à cet âge."
+    ),
+
+    h(
+      "div",
+      { class: "note", style: { margin: "1rem 0 1.5rem" } },
+      h("span", { class: "note-icone" }, "📄"),
+      h(
+        "div",
+        {},
+        h("strong", {}, "L'essentiel se passe sur papier"),
+        h(
+          "p",
+          { style: { margin: ".25rem 0 .75rem" } },
+          "À 4–5 ans, le crayon, les ciseaux et la manipulation valent mieux que l'écran. Ces jeux sont un " +
+            "complément occasionnel — les ",
+          h("a", { href: "#/fiches" }, "fiches à imprimer"),
+          " constituent le cœur de l'application."
+        ),
+        h("a", { class: "bouton bouton-secondaire", href: "#/fiches" }, "🖨️ Voir les fiches")
+      )
     ),
 
     h(

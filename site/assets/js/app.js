@@ -12,6 +12,10 @@ import * as annee from "./pages/annee.js";
 import * as exercices from "./pages/exercices.js";
 import * as jeu from "./pages/jeu.js";
 import * as parents from "./pages/parents.js";
+import * as fiches from "./pages/fiches.js";
+import * as fiche from "./pages/fiche.js";
+import * as cahier from "./pages/cahier.js";
+import * as vaud from "./pages/vaud.js";
 
 const ROUTES = [
   { motif: /^\/?$/, page: accueil, titre: "Accueil" },
@@ -19,7 +23,11 @@ const ROUTES = [
   { motif: /^\/objectifs(?:\/(\d))?$/, page: objectifs, params: ["cycle"], titre: "Objectifs" },
   { motif: /^\/annees$/, page: annees, titre: "Par année" },
   { motif: /^\/annee\/([^/]+)$/, page: annee, params: ["id"], titre: "Année" },
-  { motif: /^\/exercices$/, page: exercices, titre: "Exercices 1P" },
+  { motif: /^\/fiches$/, page: fiches, titre: "Fiches à imprimer" },
+  { motif: /^\/fiche\/([^/]+)$/, page: fiche, params: ["id"], titre: "Fiche" },
+  { motif: /^\/cahier$/, page: cahier, titre: "Cahier" },
+  { motif: /^\/vaud$/, page: vaud, titre: "Canton de Vaud" },
+  { motif: /^\/exercices$/, page: exercices, titre: "Jeux sur écran" },
   { motif: /^\/jeu\/([^/]+)$/, page: jeu, params: ["id"], titre: "Jeu" },
   { motif: /^\/parents$/, page: parents, titre: "Espace parents" }
 ];
@@ -79,7 +87,8 @@ function majNavigation() {
       cible === actuel ||
       (cible !== "/" && actuel.startsWith(cible)) ||
       (cible === "/annees" && actuel.startsWith("/annee/")) ||
-      (cible === "/exercices" && actuel.startsWith("/jeu/"));
+      (cible === "/exercices" && actuel.startsWith("/jeu/")) ||
+      (cible === "/fiches" && (actuel.startsWith("/fiche/") || actuel === "/cahier"));
     lien.classList.toggle("actif", actif);
   }
 }
