@@ -1,0 +1,27 @@
+# Variante sans construction d'image : nginx officiel + le dossier site/ monté
+# en lecture seule. Pratique sur un NAS Synology, où Container Manager ne
+# construit pas toujours les images facilement.
+#
+# Mise à jour du contenu : on remplace les fichiers dans le dossier partagé,
+# puis on redémarre le conteneur. Rien à reconstruire.
+#
+# Usage : docker compose -f docker-compose.synology.yml up -d
+
+services:
+  mon-per:
+    image: nginx:1.27-alpine
+    container_name: mon-per
+    restart: unless-stopped
+    ports:
+      # Port libre sur le NAS. Le reverse proxy DSM enverra ici.
+      - "8087:80"
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true

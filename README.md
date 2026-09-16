@@ -41,10 +41,18 @@ docker build -t mon-per .
 docker run -d --name mon-per -p 8080:80 --restart unless-stopped mon-per
 ```
 
-### Derrière un reverse proxy (Traefik, Nginx Proxy Manager, Caddy…)
+### Sur un NAS Synology, derrière le reverse proxy DSM
+
+Procédure détaillée : [`docs/SYNOLOGY.md`](docs/SYNOLOGY.md). En résumé : déposer le dépôt
+dans `/volume1/docker/mon-per`, lancer `docker-compose.synology.yml` (qui monte le dossier
+`site/` sans rien reconstruire), puis créer une règle de reverse proxy
+`per.mondomaine.ch:443 → localhost:8087`.
+
+### Derrière un autre reverse proxy (Traefik, Nginx Proxy Manager, Caddy…)
 
 Le conteneur écoute sur le port **80** et ne demande aucune configuration particulière :
-pas de websocket, pas d'API, pas de chemin de base à réécrire.
+pas de websocket, pas d'API. Servez-le sur un **sous-domaine** plutôt que dans un
+sous-chemin : les chemins des fichiers sont relatifs à la racine du site.
 
 ---
 
