@@ -27,11 +27,17 @@ docker compose up -d --build
 
 L'application est ensuite disponible sur <http://localhost:8080>.
 
-Pour changer le port, modifiez `docker-compose.yml` :
+Pour changer le port, créez un fichier `.env` à côté du `docker-compose.yml` :
 
-```yaml
-ports:
-  - "3000:80"   # 3000 = port sur votre machine
+```
+PORT_NAS=3000
+```
+
+puis **recréez** le conteneur — un simple redémarrage ne suffit pas à appliquer un
+changement de port :
+
+```bash
+docker compose up -d --force-recreate
 ```
 
 ### Sans docker compose

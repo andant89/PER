@@ -62,10 +62,19 @@ L'application doit s'afficher. Si ce n'est pas le cas :
 sudo docker logs mon-per
 ```
 
-**Le port 8087 est-il libre ?** Les ports 80, 443, 5000 et 5001 sont pris par DSM.
-Pour vérifier : `sudo netstat -tulpn | grep 8087`. S'il est occupé, changez les
-deux chiffres de gauche dans `ports:` (`"8088:80"`) et relancez — ne touchez
-jamais au `80` de droite, c'est le port interne de nginx.
+**Changer le port publié.** Créez un fichier `.env` à côté du compose :
+
+```
+PORT_NAS=3000
+```
+
+puis **recréez** le conteneur (voir la section « Le port ne change pas » plus bas).
+Ne modifiez jamais le `80` à droite des deux-points : c'est le port interne de
+nginx, il doit rester tel quel.
+
+**Le port est-il libre ?** Les ports 80, 443, 5000 et 5001 sont pris par DSM, et
+3000 l'est parfois par d'autres paquets. Pour vérifier :
+`sudo netstat -tulpn | grep :3000`.
 
 ---
 
@@ -151,6 +160,90 @@ personnelle et n'a pas de formulaire de connexion. Si vous ne l'utilisez qu'à l
 maison, restez en local : c'est plus simple et il n'y a rien à sécuriser. Si vous
 l'exposez, le portail de connexion DSM permet d'ajouter une authentification
 devant le reverse proxy.
+
+---
+
+## Quand ça ne marche pas
+
+Commencez toujours par identifier **où** ça casse : le conteneur, ou le reverse
+proxy. La question qui tranche : est-ce que `http://ip-du-nas:PORT` répond
+directement, sans passer par le nom de domaine ?
+
+### Le port ne change pas après modification du compose
+
+C'est de loin le cas le plus fréquent. **Modifier le fichier ne suffit pas** :
+un changement de port oblige Docker à recréer le conteneur, un simple
+redémarrage ne l'applique pas.
+
+En SSH :
+
+```bash
+cd /volume1/docker/mon-per
+sudo docker compose -f docker-compose.synology.yml up -d --force-recreate
+```
+
+Dans Container Manager : **Projet** → sélectionner `mon-per` → **Arrêter**,
+puis **Action** → **Reconstruire** (ou supprimer le projet et le recréer).
+Le bouton « Démarrer » seul relance l'ancien conteneur, avec l'ancien port.
+
+Vérifiez ensuite ce qui est réellement publié :
+
+```bash
+sudo docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+```
+
+La colonne « PORTS » doit afficher `0.0.0.0:3000->80/tcp`. Si elle affiche encore
+l'ancien port, le conteneur n'a pas été recréé.
+
+### Le sens des deux ports
+
+```yaml
+ports:
+  - "3000:80"
+#    ^^^^ ^^
+#    |    port DANS le conteneur : nginx écoute là, ne jamais y toucher
+#    port SUR le NAS : c'est celui que vise le reverse proxy
+```
+
+Écrire `"80:3000"` inverse tout : rien n'écoute sur 3000 à l'intérieur du
+conteneur, et la connexion échoue.
+
+### Le conteneur ne démarre pas
+
+```bash
+sudo docker logs mon-per
+```
+
+- `port is already allocated` → le port du NAS est déjà pris, choisissez-en un autre.
+- Redémarrages en boucle → commentez `read_only: true` dans le compose et recréez.
+
+### Le conteneur tourne mais rien ne répond
+
+Depuis le NAS en SSH :
+
+```bash
+curl -I http://localhost:3000
+```
+
+- `HTTP/1.1 200 OK` → le conteneur est bon, le problème est dans le reverse proxy.
+- `Connection refused` → le port publié n'est pas celui que vous croyez : reprenez
+  `docker ps` ci-dessus.
+
+### Le conteneur répond, mais pas le nom de domaine
+
+Le problème est dans la règle de reverse proxy.
+
+- **Destination** : protocole `HTTP` (pas HTTPS — la liaison interne n'est pas
+  chiffrée), nom d'hôte `localhost`, port = celui publié par le conteneur.
+  Si `localhost` ne fonctionne pas, mettez l'IP locale du NAS (par ex. `192.168.1.20`).
+- **Source** : protocole `HTTPS`, port `443`, et le nom d'hôte **exactement** tel
+  que vous le tapez dans le navigateur.
+- Erreur `502 Bad Gateway` → DSM joint le port mais personne ne répond derrière :
+  c'est le port de destination qui est faux.
+- Page DSM ou erreur 404 → le nom d'hôte de la source ne correspond pas à celui
+  demandé, la règle ne s'applique donc pas.
+- Après chaque modification d'une règle, **enregistrez et rechargez la page** du
+  navigateur avec Ctrl+Maj+R : DSM et le navigateur mettent en cache.
 
 ---
 
